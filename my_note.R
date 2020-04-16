@@ -33,3 +33,47 @@ tail(andy_david)
 day_25<-andy_david[which(andy_david$Day==25),]
 day_25
 ## Page 5 - continue
+#Create general data frame from particular ones 
+dat<-data.frame() # Create empty data frame
+for (i in 1:5){
+  dat<-rbind(dat,read.csv(files_full[i]))
+}
+str(dat)
+#Calculate the mean of Weight in a certain day
+median(dat$Weight, na.rm = TRUE)
+dat_30<-dat[which(dat$Day==30),]
+dat_30
+median(dat_30$Age)
+
+#Creat function to calculate the means of rows
+weightmedian<-function(directory,day)
+  {
+  files_list<- list.files(directory, full.names = TRUE)
+  dat<-data.frame()
+  for (i in 1:5){
+    dat<-rbind(dat,read.csv(files_list[i]))
+    
+  }
+  dat_subset<-dat[which(dat$Day==day),]
+  median(dat_subset[,"Weight"], na.rm = TRUE)
+}
+weightmedian("diet_data", 30)
+weightmedian("diet_data", 17)
+
+
+# Cách tạo Object rỗng
+
+tmp<-vector(mode = "list",length=length(files_full)) #Create a empty list
+summary(tmp)
+#Creat a list including many data frame
+for( i in seq_along(files_full)) {
+  tmp[[i]]<-read.csv(files_full[[i]])
+}
+str(tmp)
+str(lapply(files_full,read.csv)) # An existed function to do the <<same job>>!!
+tmp
+#use a function called do.call() to combine tmp into a single data frame
+output<- do.call(rbind, tmp)
+str(output)
+
+
